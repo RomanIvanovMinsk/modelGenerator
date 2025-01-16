@@ -35,9 +35,10 @@ func toPascalCase(input string) string {
 	return strings.Join(parts, "")
 }
 
-func processFilesInDirectory(dir string) error {
+func processFilesInDirectory(dir string) (int, error) {
+	var count int = 0
 	// Проходим по всем файлам и поддиректориям в заданной директории
-	return filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+	err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
@@ -45,10 +46,13 @@ func processFilesInDirectory(dir string) error {
 		// Если это не .cs файл, пропускаем его
 		if !info.IsDir() && strings.HasSuffix(path, ".sql") {
 			fmt.Println("Обрабатываем файл:", path)
+			count++
 			return processFile(path)
 		}
 		return nil
 	})
+
+	return count, err
 }
 
 func processFile(path string) error {
@@ -128,7 +132,7 @@ func main() {
 	// Указываем директорию для обработки, например, текущую директорию
 	dir := "."
 
-	if err := processFilesInDirectory(dir); err != nil {
+	if _, err := processFilesInDirectory(dir); err != nil {
 		fmt.Println("Ошибка при обработке файлов:", err)
 	}
 }
