@@ -15,37 +15,6 @@ pipeline {
                 sh 'go test -v'
             }
         }
-        /*stage('Deploy') {
-            steps {
-                sshagent(credentials: [SSH_CREDENTIALS_ID]) {
-                    script {
-                        // Commands to be executed on the remote server
-                        def remoteCommands = '''
-                       
-                        # Stop existing Go binary process if running
-                        pkill hello-world-api || true
-                        
-                        # Create target directory
-                        mkdir -p ~/go_apps/production
-                        
-                        # Remove old binary if exists
-                        rm -f ~/go_apps/production/hello-world-api
-                        
-                        # Copy the new binary
-                        scp -o StrictHostKeyChecking=no -i ${SSH_AUTH_SOCK} hello-world-api nn@172.16.137.133:~/go_apps/production/
-                        
-                        # Change directory and make the binary executable
-                        chmod +x ~/go_apps/production/hello-world-api
-                        cd ~/go_apps/production
-                        
-                        # Run the new binary in the background
-                        nohup ./hello-world-api > /dev/null 2>&1 &
-                        '''
-                        // Execute commands on the remote server
-                        sh "ssh -o StrictHostKeyChecking=no nn@172.16.137.133 '${remoteCommands}'"
-                    }
-                }
-            }
-        }*/
+      }
     }
 }
