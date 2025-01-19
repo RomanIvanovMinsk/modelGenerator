@@ -8,6 +8,7 @@ pipeline {
             steps {
                 // Build the Go application
                 sh 'go build -o modelGenerator' 
+             }
         }
         stage('Test') {
             steps {
@@ -15,6 +16,7 @@ pipeline {
                 sh 'go test -v'
             }
         }
-      }
     }
 }
+      
+    
